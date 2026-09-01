@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V&amp;V — 10.10</title>
+<style>
+  :root {
+    --moss: #4c5c3d;
+    --moss-deep: #33402a;
+    --moss-light: #64764f;
+    --plum: #3d2438;
+    --plum-light: #5c3a52;
+    --stone: #9a9a8c;
+    --stone-light: #cfcdbf;
+    --white: #faf8f2;
+    --cream2: #fffdf8;
+    --ink: #2f2b28;
+    --muted-light: #cfd0bd;
+    --muted-dark: #7d7d70;
+    --line: #e1ddd0;
+    --line-dark: rgba(250, 248, 242, 0.28);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--moss);
+    color: var(--muted-light);
+    line-height: 1.6;
+  }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(51, 64, 42, 0.9);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--line-dark);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  }
+  .nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .nav a:hover { text-decoration: underline; }
+
+  section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 70px 24px;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 90px 24px 70px;
+    background: linear-gradient(180deg, var(--moss-deep) 0%, var(--moss) 100%);
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .hero .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75rem;
+    color: var(--stone-light);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    margin: 0 0 14px;
+    color: var(--white);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .hero .amp {
+    font-style: italic;
+    color: var(--stone-light);
+    margin: 0 2px;
+    display: inline-block;
+  }
+  .hero .date {
+    font-size: 1.3rem;
+    color: var(--white);
+    margin: 10px 0 4px;
+    letter-spacing: 0.05em;
+  }
+  .hero .place {
+    color: var(--muted-light);
+    font-size: 1rem;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: var(--white);
+    margin: 0 0 10px;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--muted-light);
+    font-size: 0.95rem;
+    margin: 0 0 36px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  }
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--stone-light);
+    margin: 0 auto 30px;
+    border: none;
+  }
+
+  .schedule-item {
+    display: flex;
+    gap: 18px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+  .schedule-item:first-of-type { border-top: none; }
+  .schedule-time {
+    flex-shrink: 0;
+    width: 90px;
+    font-weight: 700;
+    color: var(--plum);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 0.9rem;
+  }
+  .schedule-desc h3 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .schedule-desc p {
+    margin: 0;
+    color: var(--muted-dark);
+    font-size: 0.95rem;
+  }
+  .edit-flag {
+    display: inline-block;
+    background: #f2ece8;
+    border: 1px dashed var(--plum-light);
+    color: var(--plum);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    margin: 0 0 8px;
+    color: var(--plum);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  .card p { margin: 0 0 8px; color: var(--ink); }
+  .card p:last-child { margin-bottom: 0; }
+  .card a { color: var(--plum); font-weight: 700; }
+
+  .rsvp-box {
+    text-align: center;
+    background: var(--plum);
+    color: #fff;
+    border-radius: 16px;
+    padding: 40px 30px;
+  }
+  .rsvp-box p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    margin: 0 0 22px;
+    font-size: 1rem;
+    opacity: 0.95;
+  }
+  .rsvp-btn {
+    display: inline-block;
+    background: var(--white);
+    color: var(--plum);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 14px 34px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .rsvp-deadline {
+    margin-top: 16px !important;
+    font-size: 0.85rem !important;
+    opacity: 0.85;
+  }
+
+  .faq-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px 26px;
+  }
+  .faq-item {
+    border-top: 1px solid var(--line);
+    padding: 18px 0;
+  }
+  .faq-item:first-of-type { border-top: none; }
+  .faq-item h3 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .faq-item p {
+    margin: 0;
+    color: var(--muted-dark);
+    font-size: 0.95rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 24px 60px;
+    color: var(--muted-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 0.85rem;
+  }
+  footer .heart { color: var(--stone-light); }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    section { padding: 50px 18px; }
+    .schedule-item { flex-direction: column; gap: 4px; }
+    .schedule-time { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#schedule">Schedule</a>
+  <a href="#travel">Travel</a>
+  <a href="#rsvp">RSVP</a>
+  <a href="#attire">Attire</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">We're getting married</div>
+  <h1>V<span class="amp">&amp;</span>V</h1>
+  <div class="date">Saturday, October 10, 2026</div>
+  <div class="place">San Marcos, California</div>
+</div>
+
+<section id="schedule">
+  <h2>The Celebration</h2>
+  <div class="section-sub">A relaxed day of food, sun, and good company</div>
+  <hr class="divider">
+
+  <div class="card" style="padding-top:8px; padding-bottom:8px;">
+    <div class="schedule-item">
+      <div class="schedule-time">3:00 PM<span class="edit-flag">edit me</span></div>
+      <div class="schedule-desc">
+        <h3>Arrival</h3>
+        <p>Come relax by the pool, grab a drink, and say hello.</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">5:00 PM<span class="edit-flag">edit me</span></div>
+      <div class="schedule-desc">
+        <h3>Dinner</h3>
+        <p>A family-style meal together as the sun starts to lower.</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">7:00 PM<span class="edit-flag">edit me</span></div>
+      <div class="schedule-desc">
+        <h3>Toasts &amp; Celebration</h3>
+        <p>A few words, some dessert, and time to celebrate together.</p>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">9:00 PM<span class="edit-flag">edit me</span></div>
+      <div class="schedule-desc">
+        <h3>Farewell</h3>
+        <p>Evening wraps up — thank you for celebrating with us!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="travel">
+  <h2>Location &amp; Travel</h2>
+  <div class="section-sub">Everything you need to find us</div>
+  <hr class="divider">
+
+  <div class="card">
+    <h3>The Address</h3>
+    <p>1083 Ruby Drive<br>San Marcos, CA 92078</p>
+    <p><em>This is a day celebration — festivities wrap up in the evening, so no overnight stay is needed at the venue.</em></p>
+  </div>
+
+  <div class="card">
+    <h3>Getting There</h3>
+    <p>The nearest major airport is San Diego International (SAN), roughly 30-40 minutes away depending on traffic.</p>
+    <p>Free parking is available on-site <span class="edit-flag">confirm details</span> — we'll share exact parking instructions closer to the date.</p>
+  </div>
+
+  <div class="card">
+    <h3>Staying the Night?</h3>
+    <p>If you're traveling from out of town and want to stay nearby, there are hotel options throughout San Marcos, Carlsbad, and Escondido — all within about a 15-20 minute drive of the venue.</p>
+  </div>
+</section>
+
+<section id="rsvp">
+  <div class="rsvp-box">
+    <h2 style="color:#fff;">RSVP</h2>
+    <p>Please let us know if you'll be joining us by <strong>September 20, 2026</strong> <span class="edit-flag" style="background:#fff; color:var(--plum);">confirm date</span></p>
+    <a class="rsvp-btn" href="#" id="rsvpLink">RSVP Here</a>
+    <p class="rsvp-deadline">Link goes to our RSVP form — replace with your Google Form URL</p>
+  </div>
+</section>
+
+<section id="attire">
+  <h2>What to Wear</h2>
+  <div class="section-sub">Desert &amp; garden casual</div>
+  <hr class="divider">
+  <div class="card">
+    <p>Think relaxed and comfortable — light layers, breathable fabrics, and shoes you can walk on grass or patio in. There will be a pool, so feel free to bring a swimsuit if you'd like to take a dip!</p>
+    <p><em>Evenings can cool down, so a light jacket or wrap is a good idea.</em></p>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>Good to Know</h2>
+  <hr class="divider">
+
+  <div class="faq-card">
+    <div class="faq-item">
+      <h3>Are kids welcome?</h3>
+      <p>We'd love for you to enjoy the day, so please reach out to us directly if you're wondering whether to bring the family. <span class="edit-flag">edit answer</span></p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I bring a plus-one?</h3>
+      <p>Our guest list is intentionally small and close — please check your invite or RSVP form for who's included.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Gifts?</h3>
+      <p>Your presence is truly the gift. If you'd like to give something, your thoughtfulness is more than enough. <span class="edit-flag">add registry link if desired</span></p>
+    </div>
+    <div class="faq-item">
+      <h3>What's the weather like?</h3>
+      <p>October in San Marcos is generally warm and dry during the day, cooling off in the evening — dress in layers.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Who do we contact with questions?</h3>
+      <p>Reach out to Vanessa directly anytime. <span class="edit-flag">add phone/email</span></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  We can't wait to celebrate with you <span class="heart">&#9825;</span><br>
+  V&amp;V — 10.10.2026
+</footer>
+
+<script>
+  // Swap this with your actual Google Form URL once it's ready
+  document.getElementById('rsvpLink').href = "https://forms.google.com/REPLACE-WITH-YOUR-FORM-LINK";
+</script>
+
+</body>
+</html>
