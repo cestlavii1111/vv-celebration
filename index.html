@@ -488,6 +488,80 @@
     border-radius: 30px;
     cursor: pointer;
   }
+  .rsvp-other-input {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+  .rsvp-other-input:focus { outline: none; border-color: var(--stone-light); }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    padding: 20px;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-card {
+    background: var(--plum);
+    border-radius: 20px;
+    padding: 44px 34px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    transform: scale(0.9) translateY(10px);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .modal-overlay.open .modal-card {
+    transform: scale(1) translateY(0);
+  }
+  .modal-card h3 {
+    color: var(--white);
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  .modal-card p {
+    color: var(--stone-light);
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    margin: 0 0 28px;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--stone-light);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .modal-close:hover { color: var(--white); }
   .rsvp-error {
     color: #e0a898;
     font-size: 0.85rem;
@@ -665,8 +739,9 @@
                 <label><input type="checkbox" name="guest1_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
                 <label><input type="checkbox" name="guest1_allergies" value="Gluten"> Gluten</label>
                 <label><input type="checkbox" name="guest1_allergies" value="Dairy"> Dairy</label>
-                <label><input type="checkbox" name="guest1_allergies" value="Other"> Other</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Other" class="other-check"> Other</label>
               </div>
+              <input type="text" name="guest1_allergy_other" class="rsvp-other-input" placeholder="Please specify" hidden>
             </div>
             <div class="rsvp-field">
               <label>Food Preference</label>
@@ -691,8 +766,9 @@
                 <label><input type="checkbox" name="guest2_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
                 <label><input type="checkbox" name="guest2_allergies" value="Gluten"> Gluten</label>
                 <label><input type="checkbox" name="guest2_allergies" value="Dairy"> Dairy</label>
-                <label><input type="checkbox" name="guest2_allergies" value="Other"> Other</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Other" class="other-check"> Other</label>
               </div>
+              <input type="text" name="guest2_allergy_other" class="rsvp-other-input" placeholder="Please specify" hidden>
             </div>
             <div class="rsvp-field">
               <label>Food Preference</label>
@@ -717,8 +793,9 @@
                 <label><input type="checkbox" name="guest3_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
                 <label><input type="checkbox" name="guest3_allergies" value="Gluten"> Gluten</label>
                 <label><input type="checkbox" name="guest3_allergies" value="Dairy"> Dairy</label>
-                <label><input type="checkbox" name="guest3_allergies" value="Other"> Other</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Other" class="other-check"> Other</label>
               </div>
+              <input type="text" name="guest3_allergy_other" class="rsvp-other-input" placeholder="Please specify" hidden>
             </div>
             <div class="rsvp-field">
               <label>Food Preference</label>
@@ -743,8 +820,9 @@
                 <label><input type="checkbox" name="guest4_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
                 <label><input type="checkbox" name="guest4_allergies" value="Gluten"> Gluten</label>
                 <label><input type="checkbox" name="guest4_allergies" value="Dairy"> Dairy</label>
-                <label><input type="checkbox" name="guest4_allergies" value="Other"> Other</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Other" class="other-check"> Other</label>
               </div>
+              <input type="text" name="guest4_allergy_other" class="rsvp-other-input" placeholder="Please specify" hidden>
             </div>
             <div class="rsvp-field">
               <label>Food Preference</label>
@@ -769,8 +847,9 @@
                 <label><input type="checkbox" name="guest5_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
                 <label><input type="checkbox" name="guest5_allergies" value="Gluten"> Gluten</label>
                 <label><input type="checkbox" name="guest5_allergies" value="Dairy"> Dairy</label>
-                <label><input type="checkbox" name="guest5_allergies" value="Other"> Other</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Other" class="other-check"> Other</label>
               </div>
+              <input type="text" name="guest5_allergy_other" class="rsvp-other-input" placeholder="Please specify" hidden>
             </div>
             <div class="rsvp-field">
               <label>Food Preference</label>
@@ -850,7 +929,7 @@
 <section id="attire">
   <h2>What to Wear</h2>
   <div class="item" style="border-top:none; padding-top:0;">
-    <div class="item-label">Desert &amp; Garden Casual</div>
+    <div class="item-label">Zen &amp; Garden Casual</div>
     <p>Think relaxed and comfortable — light layers, breathable fabrics, and shoes you can walk on grass or patio in.</p>
   </div>
 
@@ -933,16 +1012,13 @@
   <h2>Good to Know</h2>
 
   <div class="item">
-    <h3>Are Kids Welcome?</h3>
-    <p>We'd love for you to enjoy the day, so please reach out to us directly if you're wondering whether to bring the family. <span class="edit-flag">edit answer</span></p>
-  </div>
-  <div class="item">
     <h3>Can I Bring a Plus-One?</h3>
     <p>Our guest list is intentionally small and close — please check your invite or RSVP form for who's included.</p>
   </div>
   <div class="item">
     <h3>Gifts?</h3>
-    <p>Your presence is truly the gift. If you'd like to give something, your thoughtfulness is more than enough. <span class="edit-flag">add registry link if desired</span></p>
+    <p>Your presence is truly the gift. If you'd like to give something, we'd be grateful for a contribution toward our honeymoon — you're also welcome to browse our registry for other options.</p>
+    <button type="button" class="rsvp-add-guest" id="registryOpenBtn">View Our Registry</button>
   </div>
   <div class="item">
     <h3>What's the Weather Like?</h3>
@@ -959,6 +1035,15 @@
   <div class="foot-date">10 . 10 . 2026</div>
   <div class="foot-note">We can't wait to celebrate with you <span class="heart">&#9825;</span></div>
 </footer>
+
+<div class="modal-overlay" id="registryModal" hidden>
+  <div class="modal-card">
+    <button type="button" class="modal-close" id="registryCloseBtn" aria-label="Close">&times;</button>
+    <h3>Our Wedding Registry</h3>
+    <p>You'll head over to The Knot to view our full registry and honeymoon fund.</p>
+    <a class="rsvp-btn" href="https://registry.theknot.com/vanessa-chap-valeria-kohakura-october-2026-ca/80223786">Continue to Registry</a>
+  </div>
+</div>
 
 <script>
   (function () {
@@ -1102,6 +1187,18 @@
       if (nextGuestNum > maxPartySize) addGuestBtn.hidden = true;
     });
 
+    document.querySelectorAll('.other-check').forEach(function (checkbox) {
+      var otherInput = checkbox.closest('.rsvp-field').querySelector('.rsvp-other-input');
+      checkbox.addEventListener('change', function () {
+        otherInput.hidden = !checkbox.checked;
+        if (checkbox.checked) {
+          otherInput.focus();
+        } else {
+          otherInput.value = '';
+        }
+      });
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -1212,6 +1309,36 @@
 
     tick();
     setInterval(tick, 30000);
+  })();
+</script>
+
+<script>
+  (function () {
+    var openBtn = document.getElementById('registryOpenBtn');
+    var modal = document.getElementById('registryModal');
+    var closeBtn = document.getElementById('registryCloseBtn');
+
+    function openModal() {
+      modal.hidden = false;
+      requestAnimationFrame(function () {
+        modal.classList.add('open');
+      });
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      setTimeout(function () {
+        modal.hidden = true;
+      }, 350);
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
   })();
 </script>
 
