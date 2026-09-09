@@ -30,7 +30,11 @@
   body {
     margin: 0;
     font-family: var(--font);
-    background: var(--moss);
+    background:
+      radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.05), transparent 42%),
+      radial-gradient(circle at 85% 95%, rgba(0, 0, 0, 0.12), transparent 48%),
+      radial-gradient(circle at 90% 15%, rgba(255, 255, 255, 0.03), transparent 35%),
+      var(--moss);
     color: var(--muted-light);
     line-height: 1.7;
     position: relative;
@@ -41,7 +45,7 @@
     inset: 0;
     z-index: 999;
     pointer-events: none;
-    opacity: 0.05;
+    opacity: 0.09;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -194,6 +198,18 @@
     color: var(--stone-light);
     letter-spacing: 0.2em;
     text-transform: uppercase;
+  }
+  .hero .countdown {
+    margin-top: 14px;
+    font-size: 0.72rem;
+    color: var(--muted-light);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .hero .countdown span {
+    color: var(--white);
+    font-weight: 700;
   }
 
   .photo-row {
@@ -587,6 +603,7 @@
 <div class="hero">
   <h1><span class="v-letter">V</span><span class="amp">&amp;</span><span class="v-letter">V</span></h1>
   <div class="date">Saturday, October 10, 2026 &bull; San Marcos, California</div>
+  <div class="countdown" id="countdownLine"></div>
 </div>
 
 <div class="photo-row">
@@ -1168,6 +1185,33 @@
     navDropdown.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', closeDropdown);
     });
+  })();
+</script>
+
+<script>
+  (function () {
+    var el = document.getElementById('countdownLine');
+    var target = new Date('2026-10-10T11:30:00-07:00').getTime();
+
+    function tick() {
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        el.innerHTML = "<span>Today's the day!</span>";
+        return;
+      }
+
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var minutes = Math.floor((diff % 3600000) / 60000);
+
+      el.innerHTML =
+        '<span>' + days + '</span> Days &nbsp;&bull;&nbsp; <span>' + hours + '</span> Hrs &nbsp;&bull;&nbsp; <span>' + minutes + '</span> Min';
+    }
+
+    tick();
+    setInterval(tick, 30000);
   })();
 </script>
 
