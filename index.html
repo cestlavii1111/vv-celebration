@@ -64,16 +64,14 @@
     margin: 14px auto 0;
     border-radius: 40px;
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
-    opacity: 0.7;
-    pointer-events: auto;
-    transition: opacity 0.45s ease;
-  }
-  .nav.nav-dim {
-    opacity: 0.4;
-  }
-  .nav.nav-visible,
-  .nav:hover {
     opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .nav.nav-hidden {
+    opacity: 0;
+    transform: translateY(-14px);
+    pointer-events: none;
   }
   .nav a {
     color: var(--stone-light);
@@ -86,6 +84,78 @@
     border-bottom: 1px solid transparent;
   }
   .nav a:hover { color: var(--white); border-bottom-color: var(--stone-light); }
+
+  .nav-compact {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+    opacity: 0;
+    transform: scale(0.85);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .nav-compact.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+  .nav-menu-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--white);
+    font-size: 1.1rem;
+    font-family: var(--font);
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  .nav-menu-btn:hover { transform: scale(1.06); }
+  .nav-dropdown {
+    position: absolute;
+    top: 56px;
+    right: 0;
+    min-width: 190px;
+    background: rgba(36, 22, 14, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+    transform-origin: top right;
+    transform: scale(0.85) translateY(-6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  }
+  .nav-dropdown.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-dropdown a {
+    color: var(--stone-light);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 11px 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-dropdown a:hover { background: rgba(255, 255, 255, 0.08); color: var(--white); }
 
   section {
     max-width: 640px;
@@ -289,6 +359,7 @@
   .rsvp-collapsible-inner {
     overflow: hidden;
     min-height: 0;
+    padding-top: 36px;
   }
   .rsvp-done-text { color: var(--stone-light); font-size: 0.95rem; letter-spacing: 0.03em; margin-bottom: 30px; }
 
@@ -488,13 +559,24 @@
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="navFull">
   <a href="#schedule">Schedule</a>
   <a href="#travel">Travel</a>
   <a href="#rsvp">RSVP</a>
   <a href="#attire">Attire</a>
   <a href="#faq">FAQ</a>
 </nav>
+
+<div class="nav-compact" id="navCompact">
+  <button type="button" class="nav-menu-btn" id="navMenuBtn" aria-label="Menu">&#9776;</button>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="#schedule">Schedule</a>
+    <a href="#travel">Travel</a>
+    <a href="#rsvp">RSVP</a>
+    <a href="#attire">Attire</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</div>
 
 <div class="hero">
   <h1>V<span class="amp">&amp;</span>V</h1>
@@ -1028,29 +1110,49 @@
 
 <script>
   (function () {
-    var nav = document.querySelector('.nav');
-    var lastY = window.scrollY;
-    var settleTimer;
+    var navFull = document.getElementById('navFull');
+    var navCompact = document.getElementById('navCompact');
+    var navMenuBtn = document.getElementById('navMenuBtn');
+    var navDropdown = document.getElementById('navDropdown');
+    var isCompact = false;
+
+    function closeDropdown() {
+      navDropdown.classList.remove('open');
+    }
 
     function onScroll() {
       var y = window.scrollY;
-      clearTimeout(settleTimer);
+      var shouldBeCompact = y > 40;
 
-      if (y <= 40 || y < lastY) {
-        nav.classList.remove('nav-dim');
-        nav.classList.add('nav-visible');
-      } else {
-        nav.classList.remove('nav-visible');
-        nav.classList.add('nav-dim');
+      if (shouldBeCompact !== isCompact) {
+        isCompact = shouldBeCompact;
+        if (isCompact) {
+          navFull.classList.add('nav-hidden');
+          navCompact.classList.add('visible');
+        } else {
+          navFull.classList.remove('nav-hidden');
+          navCompact.classList.remove('visible');
+          closeDropdown();
+        }
       }
-      lastY = y;
-
-      settleTimer = setTimeout(function () {
-        nav.classList.remove('nav-visible');
-      }, 1000);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    navMenuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      navDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!navCompact.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    navDropdown.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeDropdown);
+    });
   })();
 </script>
 
