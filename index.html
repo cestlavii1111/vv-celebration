@@ -33,6 +33,17 @@
     background: var(--moss);
     color: var(--muted-light);
     line-height: 1.7;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   .nav {
@@ -108,6 +119,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
   }
   .photo-slot img {
     width: 100%;
@@ -195,6 +207,7 @@
     border-radius: 50%;
     margin: 0 auto 8px;
     border: 1px solid var(--line-dark);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.15);
   }
   .swatch-name {
     font-size: 0.68rem;
@@ -214,7 +227,11 @@
   .rsvp-box {
     text-align: center;
     background: var(--plum);
-    padding: 60px 30px;
+    padding: 56px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+    border-radius: 18px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.32);
   }
   .rsvp-box h2 { color: var(--white); }
   .rsvp-box p {
@@ -235,6 +252,7 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     font-size: 0.85rem;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
   }
 
   footer {
@@ -291,7 +309,7 @@
   <div class="photo-slot"><img src="IMG_4051.JPG" alt=""></div>
 </div>
 
-<section id="rsvp" style="max-width:none; padding:0;">
+<section id="rsvp">
   <div class="rsvp-box">
     <h2>RSVP</h2>
     <p>Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
