@@ -1382,7 +1382,7 @@
       ["Logan"],
       ["Sokunthea", "Kaylene"],
       ["Jessica", "Guillaume", "Emma"],
-      ["Vanessa", "Valeria"],
+      ["Vanessa C.", "Valeria"],
       ["Patricia"],
       ["Kika", "Mateo"],
       ["Cristian", "Erika", "Eva", "Lucas"],
@@ -1393,7 +1393,8 @@
       ["Simon", "Melissa"],
       ["Ryan", "Cam"],
       ["Sanika", "Keira"],
-      ["Dalia", "Kurt", "Remy", "Seth", "Bohdi"]
+      ["Dalia", "Kurt", "Remy", "Seth", "Bohdi"],
+      ["Vanessa K."]
     ];
 
     var form = document.getElementById('rsvpForm');
@@ -1451,29 +1452,31 @@
         return;
       }
 
-      var matchedParty = null;
-      var matchedName = null;
-
-      GUEST_PARTIES.forEach(function (party) {
-        if (matchedParty) return;
-        party.forEach(function (name) {
-          if (!matchedParty && name.toLowerCase() === typed) {
-            matchedParty = party;
-            matchedName = name;
-          }
-        });
-      });
-
-      if (!matchedParty) {
+      function findMatches(predicate) {
+        var matches = [];
         GUEST_PARTIES.forEach(function (party) {
-          if (matchedParty) return;
           party.forEach(function (name) {
-            if (!matchedParty && name.toLowerCase().indexOf(typed) === 0) {
-              matchedParty = party;
-              matchedName = name;
+            if (predicate(name.toLowerCase())) {
+              matches.push({ party: party, name: name });
             }
           });
         });
+        return matches;
+      }
+
+      var exactMatches = findMatches(function (name) { return name === typed; });
+      var candidates = exactMatches.length ? exactMatches : findMatches(function (name) { return name.indexOf(typed) === 0; });
+
+      var matchedParty = null;
+      var matchedName = null;
+
+      if (candidates.length === 1) {
+        matchedParty = candidates[0].party;
+        matchedName = candidates[0].name;
+      } else if (candidates.length > 1) {
+        maxPartySize = 5;
+        lookupResult.textContent = "A few people match that — please type your full name (first name and last initial, like \"Vanessa C.\") so we can find the right invitation.";
+        return;
       }
 
       if (matchedParty) {
@@ -1543,9 +1546,20 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending...';
 
+      var formData = new FormData(form);
+      for (var g = 1; g <= maxPartySize; g++) {
+        ['lunch', 'dinner'].forEach(function (meal) {
+          var fieldName = 'guest' + g + '_attend_' + meal;
+          var checkbox = form.querySelector('input[name="' + fieldName + '"]');
+          if (checkbox) {
+            formData.set(fieldName, checkbox.checked ? 'Yes' : 'No');
+          }
+        });
+      }
+
       fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
-        body: new FormData(form),
+        body: formData,
         headers: { Accept: 'application/json' }
       })
         .then(function (response) {
