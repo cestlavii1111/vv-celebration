@@ -190,16 +190,16 @@
     margin: 0 0 22px;
     color: var(--white);
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     line-height: 1.1;
   }
   .hero .v-letter {
-    -webkit-text-stroke: 0.6px var(--white);
+    -webkit-text-stroke: 1.4px var(--white);
   }
   .hero .amp {
     color: var(--stone-light);
-    margin: 0 -5px;
+    margin: 0 -3px;
     display: inline-block;
     font-style: normal;
   }
@@ -268,6 +268,17 @@
     text-transform: uppercase;
     margin: 0 0 48px;
   }
+  h2 + .section-subtitle {
+    margin-top: -38px;
+  }
+  .section-subtitle {
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+    margin: 0 0 48px;
+  }
 
   .item {
     padding: 22px 0;
@@ -297,18 +308,19 @@
   }
 
   .edit-flag {
-    display: inline-block;
-    background: var(--white);
-    border: 1px dashed var(--plum-light);
-    color: var(--plum);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    font-size: 0.68rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 8px;
-    vertical-align: middle;
-    text-transform: none;
-    letter-spacing: normal;
+    display: block;
+    width: fit-content;
+    background: transparent;
+    border: 1px dashed var(--stone-light);
+    color: var(--stone-light);
+    font-family: var(--font);
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin: 10px auto 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .palette-row {
@@ -344,6 +356,7 @@
   .map-link:hover { color: var(--stone-light); }
 
   .map-embed {
+    position: relative;
     margin-top: 20px;
     border-radius: 14px;
     overflow: hidden;
@@ -354,7 +367,26 @@
     display: block;
     width: 100%;
     height: 260px;
-    filter: sepia(12%) saturate(85%) contrast(1.02);
+    filter: grayscale(100%) contrast(1.08) brightness(1.05);
+  }
+  .map-embed::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--moss-deep);
+    mix-blend-mode: color;
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  .map-embed::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--plum);
+    mix-blend-mode: multiply;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .rsvp-box {
@@ -405,6 +437,36 @@
     padding-top: 36px;
   }
   .rsvp-done-text { color: var(--stone-light); font-size: 0.95rem; letter-spacing: 0.03em; margin-bottom: 30px; }
+
+  #lodgingToggleBtn { margin-top: 18px; }
+  .lodging-list { margin-top: 32px; }
+  .lodging-option {
+    padding: 18px 0;
+    border-top: 1px solid var(--line-dark);
+  }
+  .lodging-option:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .lodging-name {
+    color: var(--white);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+  .lodging-note {
+    color: var(--muted-light);
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+  }
+  .lodging-airbnb {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--line-dark);
+    font-size: 0.92rem;
+  }
 
   .rsvp-form {
     text-align: left;
@@ -666,18 +728,18 @@
   }
   footer .monogram {
     font-size: 1.6rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--white);
     margin-bottom: 4px;
   }
   footer .monogram .v-letter {
-    -webkit-text-stroke: 0.4px var(--white);
+    -webkit-text-stroke: 1px var(--white);
   }
-  footer .monogram .amp { color: var(--stone-light); margin: 0 -3px; }
+  footer .monogram .amp { color: var(--stone-light); margin: 0 -2px; }
   footer .foot-date {
     font-size: 0.78rem;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--stone-light);
     margin-bottom: 8px;
@@ -969,27 +1031,59 @@
   <div class="item">
     <h3>Getting There</h3>
     <p>Free parking is available on-site.</p>
+    <p>Gate code: TBD <span class="edit-flag">coming soon</span></p>
   </div>
   <div class="item">
     <h3>Staying the Night?</h3>
     <p>If you're traveling from out of town and want to stay nearby, there are hotel options throughout San Marcos, Carlsbad, and Escondido — all within about a 15-20 minute drive of the venue.</p>
+    <button type="button" class="rsvp-add-guest" id="lodgingToggleBtn">Find Hotels &amp; Airbnbs</button>
+
+    <div class="rsvp-collapsible" id="lodgingCollapsible">
+      <div class="rsvp-collapsible-inner">
+        <div class="lodging-list">
+          <div class="lodging-option">
+            <div class="lodging-name">Hampton Inn San Marcos</div>
+            <div class="lodging-note">Reliable and comfortable, with breakfast included — closest to the venue.</div>
+            <a class="map-link" href="https://www.google.com/search?q=Hampton+Inn+San+Marcos+CA" target="_blank" rel="noopener">Search &amp; Book</a>
+          </div>
+          <div class="lodging-option">
+            <div class="lodging-name">Residence Inn by Marriott San Marcos</div>
+            <div class="lodging-note">Suite-style rooms with kitchens — great if you're staying a few extra days.</div>
+            <a class="map-link" href="https://www.google.com/search?q=Residence+Inn+by+Marriott+San+Marcos+CA" target="_blank" rel="noopener">Search &amp; Book</a>
+          </div>
+          <div class="lodging-option">
+            <div class="lodging-name">Lake San Marcos Resort</div>
+            <div class="lodging-note">A resort feel on the water, with pools and a marina — a short drive from the venue.</div>
+            <a class="map-link" href="https://www.google.com/search?q=Lake+San+Marcos+Resort" target="_blank" rel="noopener">Search &amp; Book</a>
+          </div>
+          <div class="lodging-option">
+            <div class="lodging-name">Hyatt Place San Diego/Vista-Carlsbad</div>
+            <div class="lodging-note">Modern rooms in Vista, right between Carlsbad and San Marcos — about 15 minutes from the venue.</div>
+            <a class="map-link" href="https://www.google.com/search?q=Hyatt+Place+San+Diego+Vista+Carlsbad" target="_blank" rel="noopener">Search &amp; Book</a>
+          </div>
+        </div>
+
+        <div class="lodging-airbnb">
+          <p>Prefer a house or private space?</p>
+          <p><a class="map-link" href="https://www.airbnb.com/s/San-Marcos--CA/homes?checkin=2026-10-09&checkout=2026-10-11&adults=2" target="_blank" rel="noopener">Browse Airbnbs in San Marcos for our wedding weekend</a></p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="attire">
   <h2>What to Wear</h2>
-  <div class="item" style="border-top:none; padding-top:0;">
-    <div class="item-label">Earthy Chic</div>
-  </div>
+  <p class="section-subtitle">Earthy Chic</p>
 
-  <div class="item">
+  <div class="item" style="border-top:none; padding-top:0;">
     <h3>Day</h3>
     <p>From arrival through the pool party and games, keep it easy and breathable — light fabrics, sandals or shoes you don't mind on grass, and a swimsuit under your outfit if you'd like to take a dip in the pool.</p>
   </div>
 
   <div class="item">
     <h3>Evening</h3>
-    <p>As we move into omakase dinner and dessert, feel free to elevate your look a touch — a linen shirt, a sundress, or anything a little more polished works beautifully. Temperatures start to drop once the sun goes down, so a light jacket or wrap is a good idea.</p>
+    <p>As we move into dinner, feel free to elevate your look a touch. Vanessa and Valeria will be wearing their dresses to take photos with everyone. Temperatures start to drop once the sun goes down, so a light jacket or wrap is a good idea.</p>
   </div>
 
   <div class="item">
@@ -1067,7 +1161,7 @@
   <div class="item">
     <h3>Gifts?</h3>
     <p>Your presence is truly the gift. If you'd like to give something, we'd be grateful for a contribution toward our honeymoon — you're also welcome to browse our registry for other options.</p>
-    <button type="button" class="rsvp-add-guest" id="registryOpenBtn">View Our Registry</button>
+    <button type="button" class="rsvp-add-guest" id="registryOpenBtn" style="margin-top:18px;">View Our Registry</button>
   </div>
   <div class="item">
     <h3>What's the Weather Like?</h3>
@@ -1075,13 +1169,14 @@
   </div>
   <div class="item">
     <h3>Who Do We Contact With Questions?</h3>
-    <p>Reach out to Vanessa directly anytime. <span class="edit-flag">add phone/email</span></p>
+    <p>Reach out to us anytime — <a class="map-link" href="mailto:viichap@gmail.com,valeria.kohakura@gmail.com">email us</a>, or call or text directly:</p>
+    <p><a class="map-link" href="tel:+18587766996">Vanessa (858) 776-6996</a> &nbsp;&bull;&nbsp; <a class="map-link" href="tel:+16195657743">Valeria (619) 565-7743</a></p>
   </div>
 </section>
 
 <footer>
   <div class="monogram"><span class="v-letter">V</span><span class="amp">&amp;</span><span class="v-letter">V</span></div>
-  <div class="foot-date">10 . 10 . 2026</div>
+  <div class="foot-date">10.10.2026</div>
   <div class="foot-note">We can't wait to celebrate with you <span class="heart">&#9825;</span></div>
 </footer>
 
@@ -1395,6 +1490,20 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+  })();
+</script>
+
+<script>
+  (function () {
+    var toggleBtn = document.getElementById('lodgingToggleBtn');
+    var collapsible = document.getElementById('lodgingCollapsible');
+    var expanded = false;
+
+    toggleBtn.addEventListener('click', function () {
+      expanded = !expanded;
+      collapsible.classList.toggle('expanded', expanded);
+      toggleBtn.textContent = expanded ? 'Close' : 'Find Hotels & Airbnbs';
     });
   })();
 </script>
