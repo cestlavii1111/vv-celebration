@@ -39,9 +39,10 @@
     margin: 0;
     font-family: var(--font);
     background:
-      radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.05), transparent 42%),
-      radial-gradient(circle at 85% 95%, rgba(0, 0, 0, 0.12), transparent 48%),
-      radial-gradient(circle at 90% 15%, rgba(255, 255, 255, 0.03), transparent 35%),
+      radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.06), transparent 42%),
+      radial-gradient(circle at 85% 95%, rgba(0, 0, 0, 0.16), transparent 48%),
+      radial-gradient(circle at 90% 15%, rgba(255, 255, 255, 0.04), transparent 35%),
+      radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.14) 100%),
       var(--moss);
     color: var(--muted-light);
     line-height: 1.7;
@@ -53,9 +54,20 @@
     inset: 0;
     z-index: 999;
     pointer-events: none;
-    opacity: 0.09;
+    opacity: 0.1;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    background-size: 360px 360px;
   }
 
   .nav {
@@ -447,12 +459,25 @@
 
   .rsvp-box {
     text-align: center;
-    background: var(--plum);
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.05), transparent 45%),
+      var(--plum);
     padding: 56px 40px;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 18px;
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.32);
+    position: relative;
+    overflow: hidden;
+  }
+  .rsvp-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .rsvp-box h2 { color: var(--white); }
   .rsvp-box p {
@@ -664,16 +689,28 @@
     pointer-events: auto;
   }
   .modal-card {
-    background: var(--plum);
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.05), transparent 45%),
+      var(--plum);
     border-radius: 20px;
     padding: 44px 34px;
     max-width: 380px;
     width: 100%;
     text-align: center;
     position: relative;
+    overflow: hidden;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
     transform: scale(0.9) translateY(10px);
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .modal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .modal-overlay.open .modal-card {
     transform: scale(1) translateY(0);
@@ -804,7 +841,16 @@
     font-size: 0.9rem;
     color: var(--muted-light);
   }
-  footer .heart { color: var(--stone-light); }
+  footer .heart {
+    display: inline-flex;
+    align-items: center;
+    color: var(--stone-light);
+    margin-left: 3px;
+    margin-right: 3px;
+    position: relative;
+    top: 1px;
+  }
+  footer .heart svg { display: block; }
 
   @media (max-width: 480px) {
     .hero { padding: 90px 24px 50px; }
@@ -1253,7 +1299,7 @@
 <footer>
   <div class="monogram"><span class="v-letter">V</span><span class="amp">&amp;</span><span class="v-letter">V</span></div>
   <div class="foot-date">10.10.2026</div>
-  <div class="foot-note">We can't wait to celebrate with you <span class="heart">&#9825;</span></div>
+  <div class="foot-note"><span class="heart" aria-hidden="true"><svg viewBox="0 0 24 22" width="0.85em" height="0.78em" fill="currentColor"><path d="M12 19.3C12 19.3 2.5 12.8 2.5 8C2.5 4.7 5 2.4 8 2.4C10 2.4 11.2 3.7 12 5.3C12.8 3.7 14 2.4 16 2.4C19 2.4 21.5 4.7 21.5 8C21.5 12.8 12 19.3 12 19.3Z"/></svg></span> We can't wait to celebrate with you <span class="heart" aria-hidden="true"><svg viewBox="0 0 24 22" width="0.85em" height="0.78em" fill="currentColor"><path d="M12 19.3C12 19.3 2.5 12.8 2.5 8C2.5 4.7 5 2.4 8 2.4C10 2.4 11.2 3.7 12 5.3C12.8 3.7 14 2.4 16 2.4C19 2.4 21.5 4.7 21.5 8C21.5 12.8 12 19.3 12 19.3Z"/></svg></span></div>
 </footer>
 
 <div class="modal-overlay" id="registryModal" hidden>
