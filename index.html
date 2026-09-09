@@ -64,6 +64,12 @@
     margin: 14px auto 0;
     border-radius: 40px;
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+    opacity: 0.35;
+    transition: opacity 0.5s ease;
+  }
+  .nav.nav-active,
+  .nav:hover {
+    opacity: 1;
   }
   .nav a {
     color: var(--stone-light);
@@ -481,6 +487,22 @@
 
 <script>
   document.getElementById('rsvpLink').href = "https://docs.google.com/forms/d/e/1FAIpQLSex1Q1f-I2JOydWC5JGDqsh8V41v2BMlQlxc2V0-FZy-JCk_g/viewform";
+</script>
+
+<script>
+  (function () {
+    var nav = document.querySelector('.nav');
+    var hideTimer;
+    function revealNav() {
+      nav.classList.add('nav-active');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        nav.classList.remove('nav-active');
+      }, 1200);
+    }
+    window.addEventListener('scroll', revealNav, { passive: true });
+    revealNav();
+  })();
 </script>
 
 </body>
