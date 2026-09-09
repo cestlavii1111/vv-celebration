@@ -50,11 +50,11 @@
     position: sticky;
     top: 14px;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    padding: 14px 26px;
+    padding: 16px 28px;
     display: flex;
     justify-content: center;
     gap: 22px 28px;
@@ -64,18 +64,16 @@
     margin: 14px auto 0;
     border-radius: 40px;
     box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
-    opacity: 0;
-    pointer-events: none;
+    opacity: 0.7;
+    pointer-events: auto;
     transition: opacity 0.45s ease;
   }
-  .nav.nav-armed {
-    opacity: 0.18;
-    pointer-events: auto;
+  .nav.nav-dim {
+    opacity: 0.4;
   }
   .nav.nav-visible,
   .nav:hover {
     opacity: 1;
-    pointer-events: auto;
   }
   .nav a {
     color: var(--stone-light);
@@ -269,6 +267,8 @@
     font-family: var(--font);
     font-weight: 700;
     text-decoration: none;
+    border: none;
+    cursor: pointer;
     padding: 16px 44px;
     border-radius: 30px;
     text-transform: uppercase;
@@ -276,6 +276,168 @@
     font-size: 0.85rem;
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
   }
+  .rsvp-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .rsvp-form {
+    text-align: left;
+    margin-top: 34px;
+  }
+  .rsvp-field {
+    margin-bottom: 22px;
+  }
+  .rsvp-field label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+    margin-bottom: 8px;
+  }
+  .rsvp-field input[type="text"],
+  .rsvp-field input[type="email"],
+  .rsvp-field textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    padding: 12px 14px;
+  }
+  .rsvp-field input[type="text"]:focus,
+  .rsvp-field input[type="email"]:focus,
+  .rsvp-field textarea:focus {
+    outline: none;
+    border-color: var(--stone-light);
+  }
+  .rsvp-field textarea { resize: vertical; }
+
+  .rsvp-toggle {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .rsvp-toggle-btn {
+    flex: 1;
+    min-width: 160px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: var(--stone-light);
+    font-family: var(--font);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .rsvp-toggle-btn.active {
+    background: var(--white);
+    color: var(--plum);
+    border-color: var(--white);
+  }
+
+  .rsvp-party {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 24px;
+    margin-bottom: 22px;
+  }
+  .rsvp-guest-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+    margin-bottom: 16px;
+    opacity: 0.85;
+  }
+  .rsvp-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
+  .rsvp-checks label,
+  .rsvp-radio-row label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.85rem;
+    color: var(--stone-light);
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+  }
+  .rsvp-radio-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
+  .rsvp-add-guest {
+    background: none;
+    border: 1px dashed rgba(255, 255, 255, 0.35);
+    color: var(--stone-light);
+    font-family: var(--font);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .rsvp-error {
+    color: #e0a898;
+    font-size: 0.85rem;
+    margin: -10px 0 20px;
+  }
+  .rsvp-thanks h2 { color: var(--white); }
+  .rsvp-thanks p {
+    color: var(--stone-light);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+  }
+
+  .rsvp-lookup {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 26px;
+    margin-bottom: 26px;
+  }
+  .rsvp-lookup-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .rsvp-lookup-row input {
+    flex: 1;
+    min-width: 180px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 0.95rem;
+    padding: 12px 14px;
+  }
+  .rsvp-lookup-row input:focus { outline: none; border-color: var(--stone-light); }
+  .rsvp-lookup-row button {
+    background: var(--white);
+    color: var(--plum);
+    border: none;
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 22px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .rsvp-lookup-result {
+    margin: 14px 0 0;
+    font-size: 0.85rem;
+    color: var(--stone-light);
+    letter-spacing: 0.02em;
+  }
+  .rsvp-lookup-result.found { color: var(--white); }
 
   footer {
     text-align: center;
@@ -333,9 +495,185 @@
 
 <section id="rsvp">
   <div class="rsvp-box">
-    <h2>RSVP</h2>
-    <p>Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
-    <a class="rsvp-btn" href="#" id="rsvpLink">RSVP Here</a>
+    <div id="rsvpFormWrap">
+      <h2>RSVP</h2>
+      <p>Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
+
+      <div class="rsvp-lookup">
+        <div class="rsvp-field">
+          <label for="lookupName">Find Your Invitation</label>
+          <div class="rsvp-lookup-row">
+            <input type="text" id="lookupName" placeholder="Type your first name">
+            <button type="button" id="lookupBtn">Find Me</button>
+          </div>
+        </div>
+        <p id="lookupResult" class="rsvp-lookup-result" hidden></p>
+      </div>
+
+      <form id="rsvpForm" class="rsvp-form">
+        <div class="rsvp-field">
+          <label for="guest1_name">Your Name</label>
+          <input type="text" id="guest1_name" name="guest1_name" required>
+        </div>
+        <div class="rsvp-field">
+          <label for="rsvpEmail">Email</label>
+          <input type="email" id="rsvpEmail" name="email" required>
+        </div>
+
+        <div class="rsvp-field">
+          <label>Will you be attending?</label>
+          <div class="rsvp-toggle">
+            <button type="button" class="rsvp-toggle-btn" data-value="Joyfully Accepts">Joyfully Accept</button>
+            <button type="button" class="rsvp-toggle-btn" data-value="Regretfully Declines">Regretfully Decline</button>
+          </div>
+          <input type="hidden" name="attending" id="attendingField">
+        </div>
+
+        <div id="partySection" class="rsvp-party" hidden>
+          <div class="rsvp-guest" data-guest="1">
+            <div class="rsvp-guest-title">Guest 1 Details</div>
+            <div class="rsvp-field">
+              <label>Food Allergies</label>
+              <div class="rsvp-checks">
+                <label><input type="checkbox" name="guest1_allergies" value="Shellfish"> Shellfish</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Fish"> Fish</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Gluten"> Gluten</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Dairy"> Dairy</label>
+                <label><input type="checkbox" name="guest1_allergies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="rsvp-field">
+              <label>Food Preference</label>
+              <div class="rsvp-radio-row">
+                <label><input type="radio" name="guest1_pref" value="Raw (omakase as prepared)"> Raw (omakase as prepared)</label>
+                <label><input type="radio" name="guest1_pref" value="Cooked preferred"> Cooked preferred</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-guest" data-guest="2" hidden>
+            <div class="rsvp-guest-title">Guest 2 Details</div>
+            <div class="rsvp-field">
+              <label>Name</label>
+              <input type="text" name="guest2_name">
+            </div>
+            <div class="rsvp-field">
+              <label>Food Allergies</label>
+              <div class="rsvp-checks">
+                <label><input type="checkbox" name="guest2_allergies" value="Shellfish"> Shellfish</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Fish"> Fish</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Gluten"> Gluten</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Dairy"> Dairy</label>
+                <label><input type="checkbox" name="guest2_allergies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="rsvp-field">
+              <label>Food Preference</label>
+              <div class="rsvp-radio-row">
+                <label><input type="radio" name="guest2_pref" value="Raw (omakase as prepared)"> Raw (omakase as prepared)</label>
+                <label><input type="radio" name="guest2_pref" value="Cooked preferred"> Cooked preferred</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-guest" data-guest="3" hidden>
+            <div class="rsvp-guest-title">Guest 3 Details</div>
+            <div class="rsvp-field">
+              <label>Name</label>
+              <input type="text" name="guest3_name">
+            </div>
+            <div class="rsvp-field">
+              <label>Food Allergies</label>
+              <div class="rsvp-checks">
+                <label><input type="checkbox" name="guest3_allergies" value="Shellfish"> Shellfish</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Fish"> Fish</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Gluten"> Gluten</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Dairy"> Dairy</label>
+                <label><input type="checkbox" name="guest3_allergies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="rsvp-field">
+              <label>Food Preference</label>
+              <div class="rsvp-radio-row">
+                <label><input type="radio" name="guest3_pref" value="Raw (omakase as prepared)"> Raw (omakase as prepared)</label>
+                <label><input type="radio" name="guest3_pref" value="Cooked preferred"> Cooked preferred</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-guest" data-guest="4" hidden>
+            <div class="rsvp-guest-title">Guest 4 Details</div>
+            <div class="rsvp-field">
+              <label>Name</label>
+              <input type="text" name="guest4_name">
+            </div>
+            <div class="rsvp-field">
+              <label>Food Allergies</label>
+              <div class="rsvp-checks">
+                <label><input type="checkbox" name="guest4_allergies" value="Shellfish"> Shellfish</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Fish"> Fish</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Gluten"> Gluten</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Dairy"> Dairy</label>
+                <label><input type="checkbox" name="guest4_allergies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="rsvp-field">
+              <label>Food Preference</label>
+              <div class="rsvp-radio-row">
+                <label><input type="radio" name="guest4_pref" value="Raw (omakase as prepared)"> Raw (omakase as prepared)</label>
+                <label><input type="radio" name="guest4_pref" value="Cooked preferred"> Cooked preferred</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-guest" data-guest="5" hidden>
+            <div class="rsvp-guest-title">Guest 5 Details</div>
+            <div class="rsvp-field">
+              <label>Name</label>
+              <input type="text" name="guest5_name">
+            </div>
+            <div class="rsvp-field">
+              <label>Food Allergies</label>
+              <div class="rsvp-checks">
+                <label><input type="checkbox" name="guest5_allergies" value="Shellfish"> Shellfish</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Fish"> Fish</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Tree nuts/Peanuts"> Tree nuts/Peanuts</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Gluten"> Gluten</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Dairy"> Dairy</label>
+                <label><input type="checkbox" name="guest5_allergies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="rsvp-field">
+              <label>Food Preference</label>
+              <div class="rsvp-radio-row">
+                <label><input type="radio" name="guest5_pref" value="Raw (omakase as prepared)"> Raw (omakase as prepared)</label>
+                <label><input type="radio" name="guest5_pref" value="Cooked preferred"> Cooked preferred</label>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="addGuestBtn" class="rsvp-add-guest">+ Add Another Guest</button>
+        </div>
+
+        <div class="rsvp-field">
+          <label for="rsvpNote">Note or Song Request (optional)</label>
+          <textarea id="rsvpNote" name="note" rows="3"></textarea>
+        </div>
+
+        <p id="rsvpError" class="rsvp-error" hidden>Please select whether you'll be attending before submitting.</p>
+
+        <button type="submit" class="rsvp-btn" id="rsvpSubmitBtn">Submit RSVP</button>
+      </form>
+    </div>
+
+    <div id="rsvpThanks" class="rsvp-thanks" hidden>
+      <h2>You're All Set</h2>
+      <p>Thank you for letting us know — we can't wait to celebrate with you.</p>
+    </div>
   </div>
 </section>
 
@@ -492,38 +830,185 @@
 </footer>
 
 <script>
-  document.getElementById('rsvpLink').href = "https://docs.google.com/forms/d/e/1FAIpQLSex1Q1f-I2JOydWC5JGDqsh8V41v2BMlQlxc2V0-FZy-JCk_g/viewform";
+  (function () {
+    var FORMSPREE_ENDPOINT = "https://formspree.io/f/xvkovynd";
+
+    var GUEST_PARTIES = [
+      ["Beau"],
+      ["Mom", "Chris"],
+      ["Bryce"],
+      ["Logan"],
+      ["Dad", "Ming Tey"],
+      ["Jessica", "Guillaume", "Emma"],
+      ["Vanessa"],
+      ["Patricia"],
+      ["Kika", "Mateo"],
+      ["Cristian", "Erika", "Eva", "Lucas"],
+      ["Ileana", "Niccole"],
+      ["David"],
+      ["Daniel", "Jenny"],
+      ["Jerid", "Cat"],
+      ["Simon", "Melissa"],
+      ["Ryan", "Cam"],
+      ["Sanika", "Keira"],
+      ["Dalia", "Kurt", "Remy", "Seth", "Bohdi"]
+    ];
+
+    var form = document.getElementById('rsvpForm');
+    var toggleBtns = document.querySelectorAll('.rsvp-toggle-btn');
+    var attendingField = document.getElementById('attendingField');
+    var partySection = document.getElementById('partySection');
+    var addGuestBtn = document.getElementById('addGuestBtn');
+    var errorMsg = document.getElementById('rsvpError');
+    var submitBtn = document.getElementById('rsvpSubmitBtn');
+    var formWrap = document.getElementById('rsvpFormWrap');
+    var thanks = document.getElementById('rsvpThanks');
+    var lookupBtn = document.getElementById('lookupBtn');
+    var lookupName = document.getElementById('lookupName');
+    var lookupResult = document.getElementById('lookupResult');
+    var nextGuestNum = 2;
+    var maxPartySize = 5;
+
+    function revealGuestSlot(num) {
+      var block = partySection.querySelector('[data-guest="' + num + '"]');
+      if (block) block.hidden = false;
+    }
+
+    lookupBtn.addEventListener('click', function () {
+      var typed = lookupName.value.trim().toLowerCase();
+      lookupResult.hidden = false;
+      lookupResult.classList.remove('found');
+
+      if (!typed) {
+        lookupResult.textContent = "Please type your first name to search.";
+        return;
+      }
+
+      var matchedParty = null;
+      var matchedName = null;
+
+      GUEST_PARTIES.forEach(function (party) {
+        if (matchedParty) return;
+        party.forEach(function (name) {
+          if (!matchedParty && name.toLowerCase() === typed) {
+            matchedParty = party;
+            matchedName = name;
+          }
+        });
+      });
+
+      if (!matchedParty) {
+        GUEST_PARTIES.forEach(function (party) {
+          if (matchedParty) return;
+          party.forEach(function (name) {
+            if (!matchedParty && name.toLowerCase().indexOf(typed) === 0) {
+              matchedParty = party;
+              matchedName = name;
+            }
+          });
+        });
+      }
+
+      if (matchedParty) {
+        maxPartySize = matchedParty.length;
+        document.getElementById('guest1_name').value = matchedName;
+        var others = matchedParty.filter(function (n) { return n !== matchedName; });
+        lookupResult.textContent = others.length
+          ? "Welcome, " + matchedName + "! Looks like your party also includes: " + others.join(', ') + "."
+          : "Welcome, " + matchedName + "!";
+        lookupResult.classList.add('found');
+
+        nextGuestNum = 2;
+        others.forEach(function (name) {
+          revealGuestSlot(nextGuestNum);
+          var nameInput = partySection.querySelector('[data-guest="' + nextGuestNum + '"] input[type="text"]');
+          if (nameInput) nameInput.value = name;
+          nextGuestNum++;
+        });
+        addGuestBtn.hidden = nextGuestNum > maxPartySize;
+      } else {
+        maxPartySize = 5;
+        lookupResult.textContent = "We couldn't find that name — no worries, just fill in your info below!";
+      }
+    });
+
+    toggleBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        toggleBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        attendingField.value = btn.getAttribute('data-value');
+        errorMsg.hidden = true;
+        if (btn.getAttribute('data-value') === 'Joyfully Accepts') {
+          partySection.hidden = false;
+        } else {
+          partySection.hidden = true;
+        }
+      });
+    });
+
+    addGuestBtn.addEventListener('click', function () {
+      if (nextGuestNum > maxPartySize) return;
+      revealGuestSlot(nextGuestNum);
+      nextGuestNum++;
+      if (nextGuestNum > maxPartySize) addGuestBtn.hidden = true;
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (!attendingField.value) {
+        errorMsg.hidden = false;
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (response) {
+          if (response.ok) {
+            formWrap.hidden = true;
+            thanks.hidden = false;
+          } else {
+            throw new Error('Submission failed');
+          }
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit RSVP';
+          errorMsg.textContent = "Something went wrong sending your RSVP — please try again in a moment.";
+          errorMsg.hidden = false;
+        });
+    });
+  })();
 </script>
 
 <script>
   (function () {
     var nav = document.querySelector('.nav');
-    var hero = document.querySelector('.hero');
     var lastY = window.scrollY;
-    var heroBottom = 0;
-
-    function computeHeroBottom() {
-      heroBottom = hero.offsetTop + hero.offsetHeight;
-    }
-    computeHeroBottom();
-    window.addEventListener('resize', computeHeroBottom);
+    var settleTimer;
 
     function onScroll() {
       var y = window.scrollY;
-      var pastHero = y > heroBottom - 80;
+      clearTimeout(settleTimer);
 
-      if (pastHero) {
-        nav.classList.add('nav-armed');
-        if (y < lastY) {
-          nav.classList.add('nav-visible');
-        } else {
-          nav.classList.remove('nav-visible');
-        }
+      if (y <= 40 || y < lastY) {
+        nav.classList.remove('nav-dim');
+        nav.classList.add('nav-visible');
       } else {
-        nav.classList.remove('nav-armed');
         nav.classList.remove('nav-visible');
+        nav.classList.add('nav-dim');
       }
       lastY = y;
+
+      settleTimer = setTimeout(function () {
+        nav.classList.remove('nav-visible');
+      }, 1000);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
