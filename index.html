@@ -68,6 +68,7 @@
     -webkit-backdrop-filter: blur(14px);
     padding: 16px 28px;
     display: flex;
+    align-items: center;
     justify-content: center;
     gap: 22px 28px;
     flex-wrap: wrap;
@@ -92,6 +93,7 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 400;
+    padding-top: 4px;
     padding-bottom: 4px;
     border-bottom: 1px solid transparent;
   }
@@ -341,6 +343,20 @@
   }
   .map-link:hover { color: var(--stone-light); }
 
+  .map-embed {
+    margin-top: 20px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 260px;
+    filter: sepia(12%) saturate(85%) contrast(1.02);
+  }
+
   .rsvp-box {
     text-align: center;
     background: var(--plum);
@@ -570,6 +586,25 @@
     cursor: pointer;
   }
   .modal-close:hover { color: var(--white); }
+
+  .confetti-piece {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 500;
+    opacity: 1;
+    animation-name: confetti-fall;
+    animation-timing-function: cubic-bezier(0.15, 0.6, 0.35, 1);
+    animation-fill-mode: forwards;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+  }
   .rsvp-error {
     color: #e0a898;
     font-size: 0.85rem;
@@ -698,7 +733,7 @@
   <div class="rsvp-box">
     <div id="rsvpIntro">
       <h2>RSVP</h2>
-      <p id="rsvpIntroText">Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
+      <p id="rsvpIntroText">Please let us know if you'll be joining us by September 20, 2026</p>
       <p id="rsvpDoneText" class="rsvp-done-text" hidden>Thank you for letting us know — we can't wait to celebrate with you! You can still make changes below anytime.</p>
       <button type="button" class="rsvp-btn" id="rsvpToggleBtn">RSVP Here</button>
     </div>
@@ -872,7 +907,7 @@
         </div>
 
         <div class="rsvp-field">
-          <label for="rsvpNote">Note or Song Request (optional)</label>
+          <label for="rsvpNote">Note to the Couple (optional)</label>
           <textarea id="rsvpNote" name="note" rows="3"></textarea>
         </div>
 
@@ -902,7 +937,7 @@
   <div class="item">
     <div class="item-label">5:00 PM</div>
     <h3>Omakase Dinner</h3>
-    <p>A seated omakase dinner as the sun starts to lower, prepared course by course.</p>
+    <p>An intimate, chef-curated omakase dinner — multiple small courses served as the sun sets.</p>
   </div>
   <div class="item">
     <div class="item-label">7:00 PM</div>
@@ -923,10 +958,17 @@
     <h3>The Address</h3>
     <p><a class="map-link" href="https://maps.google.com/?q=1083+Ruby+Drive,+San+Marcos,+CA+92078" target="_blank" rel="noopener">1083 Ruby Drive, San Marcos, CA 92078</a></p>
     <p><em>This is a day celebration — festivities wrap up in the evening, so no overnight stay is needed at the venue.</em></p>
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps?q=1083+Ruby+Drive,+San+Marcos,+CA+92078&output=embed"
+        width="100%" height="260" style="border:0;" loading="lazy"
+        allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+        title="Map to 1083 Ruby Drive, San Marcos, CA 92078"></iframe>
+    </div>
   </div>
   <div class="item">
     <h3>Getting There</h3>
-    <p>Free parking is available on-site <span class="edit-flag">confirm details</span> — we'll share exact parking instructions closer to the date.</p>
+    <p>Free parking is available on-site.</p>
   </div>
   <div class="item">
     <h3>Staying the Night?</h3>
@@ -937,8 +979,7 @@
 <section id="attire">
   <h2>What to Wear</h2>
   <div class="item" style="border-top:none; padding-top:0;">
-    <div class="item-label">Zen &amp; Garden Casual</div>
-    <p>Think relaxed and comfortable — light layers, breathable fabrics, and shoes you can walk on grass or patio in.</p>
+    <div class="item-label">Earthy Chic</div>
   </div>
 
   <div class="item">
@@ -1059,10 +1100,10 @@
 
     var GUEST_PARTIES = [
       ["Beau"],
-      ["Mom", "Chris"],
+      ["Sochenda", "Chris"],
       ["Bryce"],
       ["Logan"],
-      ["Dad", "Ming Tey"],
+      ["Sokunthea", "Kaylene"],
       ["Jessica", "Guillaume", "Emma"],
       ["Vanessa", "Valeria"],
       ["Patricia"],
@@ -1115,6 +1156,13 @@
       var block = partySection.querySelector('[data-guest="' + num + '"]');
       if (block) block.hidden = false;
     }
+
+    lookupName.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        lookupBtn.click();
+      }
+    });
 
     lookupBtn.addEventListener('click', function () {
       var typed = lookupName.value.trim().toLowerCase();
@@ -1231,6 +1279,7 @@
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit RSVP';
             setExpanded(false);
+            launchConfetti(document.querySelector('.rsvp-box'));
           } else {
             throw new Error('Submission failed');
           }
@@ -1348,6 +1397,38 @@
       if (e.key === 'Escape' && !modal.hidden) closeModal();
     });
   })();
+</script>
+
+<script>
+  function launchConfetti(originEl) {
+    if (!originEl) return;
+    var rect = originEl.getBoundingClientRect();
+    var originX = rect.left + rect.width / 2;
+    var originY = rect.top + 30;
+    var colors = ['#b5673a', '#c99a3f', '#8a9a6b', '#c9a08e', '#3f5d58', '#faf8f2', '#5c2430'];
+
+    for (var i = 0; i < 32; i++) {
+      var piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+
+      var dx = (Math.random() - 0.5) * 320;
+      var dy = 160 + Math.random() * 200;
+      var rot = (Math.random() - 0.5) * 720;
+
+      piece.style.left = originX + 'px';
+      piece.style.top = originY + 'px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.setProperty('--dx', dx + 'px');
+      piece.style.setProperty('--dy', dy + 'px');
+      piece.style.setProperty('--rot', rot + 'deg');
+      piece.style.animationDuration = (1000 + Math.random() * 600) + 'ms';
+
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', function () {
+        this.remove();
+      });
+    }
+  }
 </script>
 
 </body>
