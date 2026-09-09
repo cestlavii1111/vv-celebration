@@ -278,6 +278,20 @@
   }
   .rsvp-btn:disabled { opacity: 0.6; cursor: default; }
 
+  .rsvp-collapsible {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .rsvp-collapsible.expanded {
+    grid-template-rows: 1fr;
+  }
+  .rsvp-collapsible-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .rsvp-done-text { color: var(--stone-light); font-size: 0.95rem; letter-spacing: 0.03em; margin-bottom: 30px; }
+
   .rsvp-form {
     text-align: left;
     margin-top: 34px;
@@ -495,9 +509,15 @@
 
 <section id="rsvp">
   <div class="rsvp-box">
-    <div id="rsvpFormWrap">
+    <div id="rsvpIntro">
       <h2>RSVP</h2>
-      <p>Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
+      <p id="rsvpIntroText">Please let us know if you'll be joining us by September 20, 2026 <span class="edit-flag" style="background:transparent; border-color:var(--white); color:var(--white);">confirm date</span></p>
+      <p id="rsvpDoneText" class="rsvp-done-text" hidden>Thank you for letting us know — we can't wait to celebrate with you! You can still make changes below anytime.</p>
+      <button type="button" class="rsvp-btn" id="rsvpToggleBtn">RSVP Here</button>
+    </div>
+
+    <div class="rsvp-collapsible" id="rsvpCollapsible">
+    <div class="rsvp-collapsible-inner">
 
       <div class="rsvp-lookup">
         <div class="rsvp-field">
@@ -668,11 +688,8 @@
 
         <button type="submit" class="rsvp-btn" id="rsvpSubmitBtn">Submit RSVP</button>
       </form>
-    </div>
 
-    <div id="rsvpThanks" class="rsvp-thanks" hidden>
-      <h2>You're All Set</h2>
-      <p>Thank you for letting us know — we can't wait to celebrate with you.</p>
+    </div>
     </div>
   </div>
 </section>
@@ -861,13 +878,31 @@
     var addGuestBtn = document.getElementById('addGuestBtn');
     var errorMsg = document.getElementById('rsvpError');
     var submitBtn = document.getElementById('rsvpSubmitBtn');
-    var formWrap = document.getElementById('rsvpFormWrap');
-    var thanks = document.getElementById('rsvpThanks');
     var lookupBtn = document.getElementById('lookupBtn');
     var lookupName = document.getElementById('lookupName');
     var lookupResult = document.getElementById('lookupResult');
+    var rsvpToggleBtn = document.getElementById('rsvpToggleBtn');
+    var rsvpCollapsible = document.getElementById('rsvpCollapsible');
+    var rsvpIntroText = document.getElementById('rsvpIntroText');
+    var rsvpDoneText = document.getElementById('rsvpDoneText');
     var nextGuestNum = 2;
     var maxPartySize = 5;
+    var hasSubmitted = false;
+    var isExpanded = false;
+
+    function setExpanded(expand) {
+      isExpanded = expand;
+      rsvpCollapsible.classList.toggle('expanded', expand);
+      if (expand) {
+        rsvpToggleBtn.textContent = 'Close';
+      } else {
+        rsvpToggleBtn.textContent = hasSubmitted ? 'Edit Your RSVP' : 'RSVP Here';
+      }
+    }
+
+    rsvpToggleBtn.addEventListener('click', function () {
+      setExpanded(!isExpanded);
+    });
 
     function revealGuestSlot(num) {
       var block = partySection.querySelector('[data-guest="' + num + '"]');
@@ -971,8 +1006,12 @@
       })
         .then(function (response) {
           if (response.ok) {
-            formWrap.hidden = true;
-            thanks.hidden = false;
+            hasSubmitted = true;
+            rsvpIntroText.hidden = true;
+            rsvpDoneText.hidden = false;
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit RSVP';
+            setExpanded(false);
           } else {
             throw new Error('Submission failed');
           }
