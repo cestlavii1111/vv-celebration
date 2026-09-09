@@ -1552,14 +1552,22 @@
       submitBtn.textContent = 'Sending...';
 
       var formData = new FormData(form);
-      for (var g = 1; g <= maxPartySize; g++) {
-        ['lunch', 'dinner'].forEach(function (meal) {
-          var fieldName = 'guest' + g + '_attend_' + meal;
-          var checkbox = form.querySelector('input[name="' + fieldName + '"]');
-          if (checkbox) {
-            formData.set(fieldName, checkbox.checked ? 'Yes' : 'No');
-          }
-        });
+      for (var g = 1; g <= 5; g++) {
+        if (g <= maxPartySize) {
+          ['lunch', 'dinner'].forEach(function (meal) {
+            var fieldName = 'guest' + g + '_attend_' + meal;
+            var checkbox = form.querySelector('input[name="' + fieldName + '"]');
+            if (checkbox) {
+              formData.set(fieldName, checkbox.checked ? 'Yes' : 'No');
+            }
+          });
+        } else {
+          // This guest slot isn't part of the party — strip any leaked default
+          // values (like a still-checked attend box) so it doesn't show up in Formspree.
+          ['name', 'allergies', 'allergy_other', 'pref', 'attend_lunch', 'attend_dinner'].forEach(function (suffix) {
+            formData.delete('guest' + g + '_' + suffix);
+          });
+        }
       }
 
       fetch(FORMSPREE_ENDPOINT, {
