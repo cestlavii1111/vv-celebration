@@ -850,16 +850,14 @@
   }
   .rsvp-lookup-result.found { color: var(--white); }
   .rsvp-suggestions {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(100% + 6px);
-    z-index: 20;
+    position: fixed;
+    z-index: 250;
     background: var(--plum-light);
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
+    overflow-y: auto;
+    max-height: 240px;
   }
   .rsvp-suggestion-item {
     display: block;
@@ -1517,6 +1515,13 @@
       }
     }
 
+    function positionSuggestions() {
+      var rect = lookupName.getBoundingClientRect();
+      lookupSuggestions.style.left = rect.left + 'px';
+      lookupSuggestions.style.top = (rect.bottom + 6) + 'px';
+      lookupSuggestions.style.width = rect.width + 'px';
+    }
+
     function clearSuggestions() {
       lookupSuggestions.innerHTML = '';
       lookupSuggestions.hidden = true;
@@ -1538,8 +1543,16 @@
         });
         lookupSuggestions.appendChild(item);
       });
+      positionSuggestions();
       lookupSuggestions.hidden = false;
     }
+
+    window.addEventListener('scroll', function () {
+      if (!lookupSuggestions.hidden) positionSuggestions();
+    }, { passive: true });
+    window.addEventListener('resize', function () {
+      if (!lookupSuggestions.hidden) positionSuggestions();
+    });
 
     function selectGuest(name, party) {
       matchedName = name;
